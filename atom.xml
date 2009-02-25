@@ -1,0 +1,27 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Content Goes Here</title>
+ <link href="http://mojodna.net/atom.xml" rel="self"/>
+ <link href="http://mojodna.net/"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>http://mojodna.net/</id>
+ <author>
+   <name>Seth Fitzsimmons</name>
+   <email>seth@mojodna.net</email>
+ </author>
+ 
+ {% for post in site.posts %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="http://mojodna.github.com{{ post.url }}"/>
+   <updated>{{ post.date | date_to_xmlschema }}</updated>
+   <id>http://mojodna.net{{ post.id }}</id>
+   <content type="html">{{ post.content | xml_escape }}</content>
+ </entry>
+ {% endfor %}
+ 
+</feed>

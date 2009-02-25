@@ -1,0 +1,33 @@
+a, a:link, a:visited, a:hover, a:active {
+	color: #333;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+body {
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 87%;
+}
+
+code {
+	font-size: 110%;
+}
+
+tt, code, kbd, samp, pre, xmp, plaintext, listing {
+	font-family: "Panic Sans", "Monaco", monospace;
+}
+
+ul li {
+	list-style-type: none;
+}
+
+#container {
+	max-width: 700px;
+}
+
+.caption {
+	font-size: 75%;
+	font-style: italic;
+	margin: 5px;
+	margin-left: 10px;
+}
