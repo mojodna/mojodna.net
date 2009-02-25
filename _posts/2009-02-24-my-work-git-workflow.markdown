@@ -5,7 +5,7 @@ title: My (work) Git Workflow
 
 ## {{ page.title }}
 
-**The problem**: you want to track multiple patchsets against an upstream
+**The problem**: You want to track multiple patchsets against an upstream
 Subversion repository easily.
 
 **The solution**: Use `git-svn` to track it and create topic branches for
