@@ -5,6 +5,12 @@ title: My (work) Git Workflow
 
 ## {{ page.title }}
 
+**The problem**: you want to track multiple patchsets against an upstream
+Subversion repository easily.
+
+**The solution**: Use `git-svn` to track it and create topic branches for
+local changes.
+
 [Jump here for my actual workflow](#the_sizzle)
 
 ### A Not-So-Brief Introduction (with code!)
@@ -211,8 +217,11 @@ lest you risk your hard work being wasted:
 
 <div class="caption">this will <code>git svn rebase</code> if necessary</div>
 
-Finally, clean up your local repository by removing the now-merged topic
-branch:
+If you don't have write access to the upstream repository, submit the patch by
+mail instead.
+
+Finally, once the patch has been merged, you can clean up your local
+repository by removing the topic branch:
 
 {% highlight bash %}
 [master] $ git branch -d bug-42
