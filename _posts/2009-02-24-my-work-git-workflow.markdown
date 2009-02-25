@@ -42,7 +42,9 @@ transform `git` diffs into `svn` diffs, revision numbers and all. Bingo. After
 fiddling with it for a while, I ended up with the following, which has been
 working well.
 
-<script src="http://gist.github.com/44537.js"></script>
+<script src="http://gist.github.com/44537.js">
+// nothing here
+</script>
 
 Add the following to your `~/.gitconfig` to enable `git svn-diff`. Awesome. It
 even looks like it belongs there. (`git-svn-diff` must be in your `PATH`.)
@@ -61,7 +63,9 @@ even looks like it belongs there. (`git-svn-diff` must be in your `PATH`.)
 Here are the relevant pieces of my `~/.bashrc` to get tab completion and a
 colorized prompt that includes `git branch` information in it:
 
-<script src="http://gist.github.com/69960.js"></script>
+<script src="http://gist.github.com/69960.js">
+// nothing here
+</script>
 
 ### The Sizzle
 
