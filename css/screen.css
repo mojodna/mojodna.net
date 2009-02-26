@@ -25,8 +25,11 @@ ul li {
 	max-width: 700px;
 }
 
-#footer {
+#comments, #footer {
 	border-top: 3px solid #aaa;
+}
+
+#footer {
 	clear: both;
 	font-size: 87%;
 	margin-top: 20px;
