@@ -25,6 +25,27 @@ ul li {
 	max-width: 700px;
 }
 
+#footer {
+	border-top: 3px solid #aaa;
+	clear: both;
+	font-size: 87%;
+	margin-top: 20px;
+}
+
+#footer a {
+	font-weight: normal;
+}
+
+#footer a.code {
+	font-family: "Panic Sans", "Monaco", monospace;
+}
+
+#footer div {
+	float: left;
+	height: 50px;
+	margin: 10px 25px;
+}
+
 .caption {
 	font-size: 75%;
 	font-style: italic;
