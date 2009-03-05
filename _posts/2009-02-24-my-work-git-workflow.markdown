@@ -100,28 +100,29 @@ Make sure you're up-to-date:
 [master] $ git svn rebase
 {% endhighlight %}
 
-Create a topic branch and check it out:
+Create a topic branch (I include a title to recognize it more easily) and
+check it out:
 
 {% highlight bash %}
-[master] $ git checkout -b bug-42
+[master] $ git checkout -b bug-42-title
 {% endhighlight %}
 
 Attempt a bug fix (write a test, make it pass):
 
 {% highlight bash %}
-[bug-42] $ ...
+[bug-42-title] $ ...
 {% endhighlight %}
 
 Check it in:
 
 {% highlight bash %}
-[bug-42] $ git commit -a
+[bug-42-title] $ git commit -a
 {% endhighlight %}
 
 Generate a patch for review:
 
 {% highlight bash %}
-[bug-42] $ git svn-diff > bug-42.patch
+[bug-42-title] $ git svn-diff > bug-42-title.patch
 {% endhighlight %}
 
 <div class="caption">this will diff against the checked out trunk
@@ -140,15 +141,15 @@ Update the tracking branch:
 Rebase your topic branch against the current trunk:
 
 {% highlight bash %}
-[master] $ git checkout bug-42
-[bug-42] $ git rebase master
-[bug-42] $ # resolve conflicts; `git mergetool` is handy
+[master] $ git checkout bug-42-title
+[bug-42-title] $ git rebase master
+[bug-42-title] $ # resolve conflicts; `git mergetool` is handy
 {% endhighlight %}
 
 Regenerate the patch:
 
 {% highlight bash %}
-[bug-42] $ git svn-diff > bug-42-2.patch
+[bug-42-title] $ git svn-diff > bug-42-title-2.patch
 {% endhighlight %}
 
 Post it for review.
@@ -158,19 +159,19 @@ Post it for review.
 Make changes to your topic branch:
 
 {% highlight bash %}
-[bug-42] $ ...
+[bug-42-title] $ ...
 {% endhighlight %}
 
 Check them in:
 
 {% highlight bash %}
-[bug-42] $ git commit -a
+[bug-42-title] $ git commit -a
 {% endhighlight %}
 
 Regenerate the patch:
 
 {% highlight bash %}
-[bug-42] $ git svn-diff > bug-42-3.patch
+[bug-42-title] $ git svn-diff > bug-42-title-3.patch
 {% endhighlight %}
 
 Post it for review.
@@ -182,7 +183,7 @@ You have a few options here.
 You can apply the patch directly to the tracking branch:
 
 {% highlight bash %}
-[master] $ git apply bug-42-3.patch
+[master] $ git apply bug-42-title-3.patch
 [master] $ git commit -a
 {% endhighlight %}
 
@@ -192,20 +193,20 @@ merging:
 
 {% highlight bash %}
 [master] $ git svn rebase
-[master] $ git checkout bug-42
-[bug-42] $ git rebase master
-[bug-42] $ # resolve conflicts
-[bug-42] $ git checkout master
-[master] $ git merge bug-42
+[master] $ git checkout bug-42-title
+[bug-42-title] $ git rebase master
+[bug-42-title] $ # resolve conflicts
+[bug-42-title] $ git checkout master
+[master] $ git merge bug-42-title
 {% endhighlight %}
 
 If you want to get fancy (and remove your frustrated profanity), do an
 interactive rebase on the topic branch before merging:
 
 {% highlight bash %}
-[bug-42] $ git rebase -i
-[bug-42] $ git checkout master
-[master] $ git merge bug-42
+[bug-42-title] $ git rebase -i
+[bug-42-title] $ git checkout master
+[master] $ git merge bug-42-title
 {% endhighlight %}
 
 Whew. Almost done. You'll want to update the upstream Subversion repository,
@@ -224,8 +225,13 @@ Finally, once the patch has been merged, you can clean up your local
 repository by removing the topic branch:
 
 {% highlight bash %}
-[master] $ git branch -d bug-42
+[master] $ git branch -d bug-42-title
 {% endhighlight %}
+
+Topic branches needn't to be limited to your own bug-fixes. `git apply` is
+quite liberal in what it understands, so you can grab diffs (from ReviewBoard,
+for example) and apply them to new branches to try out uncommitted
+functionality (or as an aid to the code reviewing process).
 
 That's it! You can keep as many topic branches active as you want (or need
 to), rebasing them against your tracking branch as necessary. I use this
