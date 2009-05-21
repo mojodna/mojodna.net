@@ -10,8 +10,12 @@ I'm lazy. I don't usually enjoy re-reading things I've already read before
 all 3 of my readers, I'll summarize the changes to the
 [OAuth](http://oauth.net/) specification for [1.0a (draft
 3)](http://oauth.googlecode.com/svn/spec/core/1.0a/drafts/3/oauth-core-1_0a.html)
-as I understand them. As an added bonus, I'll demonstrate how to [update
-consumer and provider code using the Ruby
+as I understand them. Finding changes in a large document is a pain--you have
+better things to do with your time. Embrace your inner ignorance and leave
+responsibility to the wind.
+
+As an added bonus, I'll demonstrate how to [update consumer and provider code
+using the Ruby
 library](/2009/05/20/updating-ruby-consumers-and-providers-to-oauth-10a.html).
 
 ### What Happened?
