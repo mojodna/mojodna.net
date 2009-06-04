@@ -237,3 +237,110 @@ That's it! You can keep as many topic branches active as you want (or need
 to), rebasing them against your tracking branch as necessary. I use this
 approach for bugs, features, and exploratory refactoring that may never see
 the light of day.
+
+#### Working with Subversion Branches
+
+Working with Subversion branches is remarkably straightforward, but it's
+necessary to understand a few things about the repository layout and the
+branches that `git-svn` sets up when it does the initial clone.
+
+First, if you did a `git svn clone -s` against a Subversion repository with a
+typical layout (`trunk`, `branches/<branch>`, `tags/<tag>`), a number of
+remote Git branches will have been created: one for `trunk`, one for each
+branch, and one for each tag (odd, but sensible given that Subversion doesn't
+strictly **do** tags).
+
+`git branch` will list local branches:
+
+{% highlight bash %}
+[master] $ git branch
+  bug-42-title
+* master
+{% endhighlight %}
+
+`git branch -r` will list Subversion branches (and tags):
+
+{% highlight bash %}
+[master] $ git branch -r
+  stable-1.0
+  tags/REL_1.0
+  trunk
+{% endhighlight %}
+
+By default, your local `master` branch will be set up to track the remote
+`trunk` branch. Instead of using `git pull` (in a pure Git workflow) to update
+`trunk` to the current remote revision, use `git svn rebase`.
+
+If you want to ensure that you have up-to-date versions of all Subversion
+branches, use `git svn fetch` to load upstream commits. This has the
+side-effect of causing `master` and `trunk` to be out-of-sync, so you'll have
+to follow that with `git svn rebase` from the master branch.
+[GitX](http://gitx.frim.nl/) will show you the current state of both local and
+remote branches, and thus is immensely useful when attempting to determine
+your current repository state.
+
+In case you didn't fully grok that last paragraph, where you would have used
+`git svn rebase` without branches, you should do the following (rebasing still
+works, but your branches won't be up-to-date):
+
+{% highlight bash %}
+[master] $ git svn fetch
+[master] $ git svn rebase
+{% endhighlight %}
+
+`git svn rebase` in this case is the equivalent to `git rebase trunk`, as
+`trunk` is the "SVN parent of the current HEAD" (from `git help svn`).
+
+`git svn dcommit` will use `svn` to commit outstanding changes upstream
+(again, to the "SVN parent of the current HEAD"). The upstream branch in
+question depends on the Subversion branch that your current branch is
+tracking, usually using `git branch --track <local> <remote>`.
+
+Subversion branches and "tags" can also be created with `git-svn`. For
+example, to tag and branch a 1.1 release:
+
+{% highlight bash %}
+[master] $ git svn branch -m "branching for 1.1" stable-1.1
+[master] $ git svn branch -m "1.1 release" -t REL_1.1
+[master] $ git branch -r
+  stable-1.0
+  stable-1.1
+  tags/REL_1.0
+  tags/REL_1.1
+  trunk
+{% endhighlight %}
+
+Commit messages are necessary, as branching in Subversion is the equivalent to
+creating a changeset where a directory is copied.
+
+Now that the branch has been created upstream, create a local tracking branch
+such that `git svn dcommit` will commit to the correct upstream branch.
+
+{% highlight bash %}
+[master] $ git branch --track stable-1.1 stable-1.1
+[master] $ git checkout stable-1.1
+[stable-1.1] $
+{% endhighlight %}
+
+#### Extra Credit
+
+Convert Subversion "tags" into proper Git tags:
+
+{% highlight bash %}
+#!/bin/sh
+#
+# git-svn-convert-tags
+# Convert Subversion "tags" into Git tags
+for tag in `git branch -r | grep "  tags/" | sed 's/  tags\///'`; do
+  git tag $tag refs/remotes/tags/$tag
+done
+{% endhighlight %}
+
+Add the following to your `~/.gitconfig` to enable `git svn-convert-tags`.
+(`git-svn-convert-tags` must be in your `PATH`.)
+
+{% highlight ini %}
+# ~/.gitconfig
+[alias]
+  svn-convert-tags = !git-svn-convert-tags
+{% endhighlight %}
