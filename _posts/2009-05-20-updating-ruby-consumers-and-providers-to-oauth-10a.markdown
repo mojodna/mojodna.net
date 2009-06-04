@@ -14,10 +14,12 @@ As promised, here's a rough guide to updating Ruby Consumers and Providers to
 ### Updating Ruby OAuth Consumers to 1.0a
 
 In order for things to work properly, you'll need to use a version of the
-OAuth gem that's at least _0.3.4.1_. For the time being, do this:
+OAuth gem that's at least _0.3.4.1_ (0.3.5 was released on 6/3/09). To install
+it and check the version number:
 
 {% highlight bash %}
-$ sudo gem install mojodna-oauth -s http://gems.github.com/
+$ sudo gem install oauth
+$ oauth --version
 {% endhighlight %}
 
 Authorization code that once looked like this:
