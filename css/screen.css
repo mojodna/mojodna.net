@@ -13,12 +13,16 @@ code {
 	font-size: 110%;
 }
 
+h3, h4, h5, h6 {
+  border-bottom: 1px solid #333;
+}
+
 tt, code, kbd, samp, pre, xmp, plaintext, listing {
 	font-family: "Panic Sans", "Monaco", monospace;
 }
 
 ul li {
-	list-style-type: none;
+	padding-right: 50px;
 }
 
 #container {
