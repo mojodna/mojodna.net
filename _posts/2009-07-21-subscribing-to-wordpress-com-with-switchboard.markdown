@@ -103,9 +103,9 @@ Subscriptions:
 Shutdown initiated.
 {% endhighlight %}
 
-Actually, there was no need to subscribe to "Real-time Wordpress.com
-subscription"'s comments because we're also subscribed to the comments feed.
-Let's unsubscribe and check our subscriptions again:
+Actually, there was no need to subscribe to comments for "Real-time
+Wordpress.com subscription" because we're also subscribed to the comments
+feed. Let's unsubscribe and check our subscriptions again:
 
 {% highlight bash %}
 $ switchboard pubsub --server pubsub.im.wordpress.com --node \
