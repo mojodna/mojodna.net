@@ -128,10 +128,58 @@ something so we can listen for it:
 
 {% highlight bash %}
 $ switchboard pubsub listen
+(sample post and comment <event /> stanzas to come)
 {% endhighlight %}
 
 For bonus points, let's implement a `WordpressJack`:
 
 {% highlight ruby %}
-# coming soon
+class WordpressJack
+  def self.connect(switchboard, settings)
+    switchboard.plug!(AutoAcceptJack, NotifyJack, PubSubJack)
+    switchboard.hook(:new_post, :new_comment)
+
+    switchboard.on_pubsub_event do |event|
+      event.payload.each do |payload|
+        payload.elements.each do |item|
+          # grab the feed out of the payload
+          feed = item.first_element("feed")
+          
+          # TODO determine whether it's a comment or a post
+          # for now, we'll assume it's a post
+          # invoke the :new_post hook with the feed subtree
+          # (later: parse it with FeedTools or something)
+          on(:new_post, feed)
+        end
+      end
+    end
+  end
+end
 {% endhighlight %}
+
+And a quick-and-dirty consumer:
+
+{% highlight ruby %}
+#!/usr/bin/env ruby -rubygems
+
+require 'switchboard'
+require 'wordpress_jack'
+
+switchboard = Switchboard::Client.new(Switchboard::Settings.new, false)
+switchboard.plug!(WordpressJack)
+
+switchboard.on_new_post do |post|
+  puts "A new post was received:"
+  puts post
+end
+
+switchboard.on_new_comment do |comment|
+  puts "A new comment was received:"
+  puts comment
+end
+
+switchboard.run!
+{% endhighlight %}
+
+There are a number of improvements that can be made here (this is the "making
+blind assumptions about responses" version).  Go wild.
