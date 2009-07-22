@@ -338,9 +338,9 @@ end
 {% endhighlight %}
 
 Consuming the Bamboo Shooter feed can either be done by running `switchboard
-pubsub listen` or with code like this (`earth.rb`, which will zoom Google
-Earth to the location where the photo was taken). Remember, Wang Wang is the
-Panda who likes maps.
+pubsub --server <server> listen` or with code like this (`earth.rb`, which
+will zoom Google Earth to the location where the photo was taken). Remember,
+Wang Wang is the Panda who likes maps.
 
 {% highlight ruby %}
 #!/usr/bin/env ruby -rubygems

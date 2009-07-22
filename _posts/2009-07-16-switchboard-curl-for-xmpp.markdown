@@ -28,7 +28,7 @@ $ switchboard --jid client@example.com --password pa55word \
 
 $ # listen for PubSub events
 $ switchboard --jid subscriber@example.com --password pa55word \
-    pubsub listen
+    pubsub --server <pubsub server> listen
 {% endhighlight %}
 
 ### "curl for XMPP?"
@@ -241,7 +241,7 @@ to do so. Instead, let's listen for new results:
 
 {% highlight bash %}
 $ switchboard --jid <username>@superfeedr.com --password <password> \
-    pubsub listen
+    pubsub --server firehoser.superfeedr.com listen
 {% endhighlight %}
 
 If you're lucky, you'll get an Atom payload or two. I was impatient, so I
