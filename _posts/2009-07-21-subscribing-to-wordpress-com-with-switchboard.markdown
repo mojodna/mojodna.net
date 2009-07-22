@@ -165,7 +165,7 @@ And a quick-and-dirty consumer:
 require 'switchboard'
 require 'wordpress_jack'
 
-switchboard = Switchboard::Client.new(Switchboard::Settings.new, false)
+switchboard = Switchboard::Client.new
 switchboard.plug!(WordpressJack)
 
 switchboard.on_new_post do |post|
