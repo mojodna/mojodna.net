@@ -244,8 +244,41 @@ $ switchboard --jid <username>@superfeedr.com --password <password> \
     pubsub --server firehoser.superfeedr.com listen
 {% endhighlight %}
 
-If you're lucky, you'll get an Atom payload or two. I was impatient, so I
-moved on and let it run in the background.
+If you're lucky, you'll get an Atom payload or two. Here's one:
+
+{% highlight xml %}
+<event xmlns='http://jabber.org/protocol/pubsub#event'>
+  <status feed='http://search.twitter.com/search.atom?q=xmpp' xmlns='http://superfeedr.com/xmpp-pubsub-ext'>
+    <http code='200'>16933 bytes fetched in 0.600034s</http>
+    <next_fetch>2009-07-22T17:26:22Z</next_fetch>
+  </status>
+  <items node='http://search.twitter.com/search.atom?q=xmpp'>
+    <item chunk='1' chunks='1'>
+      <entry xmlns='http://www.w3.org/2005/Atom'>
+        <title>Great... trillian update has killed my ability to view my xmpp rosters</title>
+        <summary>Great... trillian update has killed my ability to view my &lt;b&gt;xmpp&lt;/b&gt; rosters</summary>
+        <link href='http://superfeedr.com/entries/tr5gfgstf8oqlcgr5opaeotxk39ovtos0oiat7h12mqfuoxdmgbjz1rnjtzswqvja2dqh8cgg31' rel='alternate' type='text/html'/>
+        <published>2009-07-22T17:10:52Z</published>
+        <id>tag:search.twitter.com,2005:2781212809</id>
+      </entry>
+    </item>
+    <item chunk='1' chunks='1'>
+      <entry xmlns='http://www.w3.org/2005/Atom'>
+        <title>usando Tkabber: TKabber is Tcl/Tk Jabber-client with great functionality. It supports MUC, XMPP-statuses a.. http://bit.ly/AsFPg</title>
+        <summary>usando Tkabber: TKabber is Tcl/Tk Jabber-client with great functionality. It supports MUC, &lt;b&gt;XMPP&lt;/b&gt;-statuses a.. &lt;a href=&quot;http://bit.ly/AsFPg&quot;&gt;http://bit.ly/AsFPg&lt;/a&gt;</summary>
+        <link href='http://superfeedr.com/entries/w6cezbjniqqgga3bd79ruklxhu7f4a6qqpro76hgz50gzccuekgmehz39yb1zi1cclgo83s' rel='alternate' type='text/html'/>
+        <published>2009-07-22T17:07:54Z</published>
+        <id>tag:search.twitter.com,2005:2781162048</id>
+      </entry>
+    </item>
+  </items>
+</event>
+{% endhighlight %}
+
+It includes a Superfeedr-specific `<status/>` element with information on the
+most recent fetch as well as standard Atom feeds contained within standard
+`<item/>` elements. This means that you can extract the Atom elements from the
+PubSub payload and hand it to a feedparser of some variety to work its magic.
 
 [Fire Eagle](http://fireeagle.yahoo.net/)'s [Location
 Streams](http://feblog.yahoo.net/2009/02/19/fire-eagle-location-streams/) also
