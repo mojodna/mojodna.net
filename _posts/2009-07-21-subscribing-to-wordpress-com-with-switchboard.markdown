@@ -127,7 +127,7 @@ Ok, all good. Now let's hope Andy posts something or gets a comment on
 something so we can listen for it:
 
 {% highlight bash %}
-$ switchboard pubsub listen
+$ switchboard pubsub --server pubsub.im.wordpress.com listen
 (sample post and comment <event /> stanzas to come)
 {% endhighlight %}
 

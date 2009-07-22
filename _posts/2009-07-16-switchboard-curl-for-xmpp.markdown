@@ -214,7 +214,7 @@ $ switchboard pubsub --server <server> subscriptions
 Listen for notifications:
 
 {% highlight bash %}
-$ switchboard pubsub listen
+$ switchboard pubsub --server <server> listen
 {% endhighlight %}
 
 Unsubscribe:
@@ -307,7 +307,7 @@ $ switchboard pubsub --oauth \
 Listen for location updates:
 
 {% highlight bash %}
-$ switchboard pubsub listen
+$ switchboard pubsub --server fireeagle.com listen
 {% endhighlight %}
 
 [Update your current location](http://fireeagle.yahoo.net/my/location) and
