@@ -46,11 +46,10 @@ $ cat styles.css | deadweight index.html
 
 Deadweight now contains an experimental `-L` argument that causes it to use
 [Lyndon](http://github.com/defunkt/lyndon) if the `lyndon` executable is in
-your `$PATH` (only possible on OS X with MacRuby installed). You'll want [my
-fork of Lyndon](http://github.com/mojodna/lyndon) in order for output to be
-piped properly. It was a bit flaky in my testing, but I may be using an older
-version of MacRuby. Great idea though. [Check this post for more info on what
-it does / how it works.](http://ozmm.org/posts/lyndon.html)
+your `$PATH` (only possible on OS X with MacRuby installed). It was a bit
+flaky in my testing, but I may be using an older version of MacRuby. Great
+idea though. [Check this post for more info on what it does / how it
+works.](http://ozmm.org/posts/lyndon.html)
 
 The next step was to expose it as an HTTP proxy. It uses `8002` by default for
 no particular reason.
