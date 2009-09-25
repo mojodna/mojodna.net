@@ -11,60 +11,6 @@ that's using Git.
 **The solution**: Follow conventions and keep clean branches to make them
 easier to merge.
 
-### First, Some Background
-
-Picture this: you've just gotten excited about some really cool piece of
-technology. It's just before Thanksgiving and you're about to get on a plane
-and cross North America (the wide part, but, thankfully, not diagonally).
-You're visiting your parents, but you're not actually visiting your parents;
-they're driving a few hours to meet you at an airport to drive a few more
-hours to another state. The hotel (or motel) you're staying at in this state
-doesn't have wireless (or 3G). You're traveling east. You're sharing a room
-with your parents. You can't sleep, but neither can you turn the light on
-(because you're considerate, you know).
-
-This means that the plan for the next morning is for all of you to drive a
-couple more hours into yet another state and meet up with family you haven't
-seen for at least a decade. Thanksgiving, you know. You're going to stuff
-yourself with food, then stay at another hotel (or motel) that barely has 3G
-(still no wireless). It's late when you get back, so it's not so bad.
-
-The next day, you have an awkward brunch with the extended fam, get back in
-the car, drive back to state number 2 (or 3), get on a ferry, and arrive on an
-island with slightly better 3G (and DSL, but it's connected to your host's
-computer and thus unavailable).
-
-There's excitement (kinda), walking (on the beach), more eating, a (skittish)
-cat, and downtime. But no internet (or barely). Which, on another vacation
-with less driving, would be an absolute joy. But remember, you've just gotten
-really excited about some really cool piece of technology.
-
-What to do?
-
-Fortunately, you foresaw some of this (maybe not the lying in bed, awake,
-across the room from your parents, in the dark until you finally drift off at
-2am part) and remembered to pack some code. And docs; can't forget them when
-you're offline. Oh, and an extra battery (lucky you).
-
-Yay `git`. (You saw this in the title, so no apologies.) Yay VMware. Yay
-Ubuntu. Yay ZeroConf (`avahi-daemon`).
-
-You're fine. You have everything you need (for some value of "need"). So code.
-And you do, hacking late into the night (finally, the time difference comes in
-handy).
-
-However, when you get return after driving to another airport, saying farewell
-(for a mere 3 weeks) to your parents, and sitting on another plane (different
-airline this time), coding to the sweet soothing sounds of Billy Banks, Rachel
-Maddow, and some random show on the Discovery Channel, you run into a new
-problem: how to package up your work (which includes enhancements and bugfixes
-to other libraries) and publish it (for some value of "publish").
-
-Turns out, you registered a couple of RubyForge projects, but in the end it'll
-turn out that you don't use them. You decide to publish some gems on GitHub,
-re-publish gems for the libraries you modified (with dependencies on those
-versions), and attempt to get your changes merged upstream.
-
 ### Let's Go
 
 For your own projects, it doesn't really matter what you do to publish and
