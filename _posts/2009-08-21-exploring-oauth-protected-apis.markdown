@@ -16,7 +16,7 @@ This needn't to be the case.
 ### Enter `oauth-proxy`
 
 This is why I wrote
-[`oauth-proxy`](http://http://github.com/mojodna/oauth-proxy). It does what it
+[`oauth-proxy`](http://github.com/mojodna/oauth-proxy). It does what it
 says on the tin: it acts a proxy server that transparently adds OAuth headers
 to requests.
 
