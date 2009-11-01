@@ -155,7 +155,7 @@ You'll get exactly what you're expecting **and** you'll be using OAuth (this
 is a partially contrived example since Twitter still supports HTTP Base Auth).
 
 ([`jsonpretty`](http://github.com/nicksieger/jsonpretty) rocks. `pygmentize`
-(`easy install pygmentize`) makes it easier to make sense of the chaos.)
+(`easy install pygments`) makes it easier to make sense of the chaos.)
 
 That's all. I use this stuff all the time and can't imagine debugging APIs
 without it.
