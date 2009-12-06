@@ -1,10 +1,12 @@
 a, a:link, a:visited, a:hover, a:active {
-	color: #333;
+	color: #7A500B;
 	font-weight: bold;
 	text-decoration: none;
 }
 
 body {
+        background-color: #99CC99;
+	color: #333333;
 	font-family: Georgia, "Times New Roman", serif;
 	font-size: 87%;
 }
@@ -26,6 +28,7 @@ ul li {
 }
 
 #container {
+	border-left: 1px solid #336633;
 	max-width: 700px;
 	margin-left: auto;
 	margin-right: auto;
