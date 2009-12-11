@@ -175,8 +175,6 @@ Paste the following into `config.py`:
 {% highlight python %}
 OPTIMIZATION = '3'
 INPUT_PLUGINS = 'all'
-BOOST_INCLUDES = '/usr/local/include/boost'
-BOOST_LIBS = '/usr/local/lib'
 FREETYPE_CONFIG = '/Library/Frameworks/FreeType.framework/unix/bin/freetype-config'
 PNG_INCLUDES = '/Library/Frameworks/UnixImageIO.framework/unix/include'
 PNG_LIBS = '/Library/Frameworks/UnixImageIO.framework/unix/lib'
@@ -190,7 +188,7 @@ GDAL_CONFIG = '/Library/Frameworks/GDAL.framework/unix/bin/gdal-config'
 PG_CONFIG = '/usr/local/pgsql/bin/pg_config'
 SQLITE_INCLUDES = '/Library/Frameworks/SQLite3.framework/unix/include'
 SQLITE_LIBS = '/Library/Frameworks/SQLite3.framework/unix/lib'
-FRAMEWORK_SEARCH_PATH = '/System/Library/Frameworks/Python.framework/Versions/2.6/'
+FRAMEWORK_SEARCH_PATH = '/System/Library/Frameworks/'
 BINDINGS = 'all'
 JOBS = 8
 {% endhighlight %}
