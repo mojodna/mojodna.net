@@ -14,7 +14,7 @@ installing and configuring software, not all of them complementary. What
 follows is **my** experience installing and configuring various tools and their
 dependencies. I've attempted to install as few duplicate dependencies as
 possible (preferring Apple-provided versions) and to simplify the overall
-experience in order that indvidual elements may be upgraded independently.
+experience in order that individual elements may be upgraded independently.
 
 <!--
 ## Virtualizing Snow Leopard
@@ -92,34 +92,18 @@ $ curl -L http://github.com/mxcl/homebrew/tarball/master | tar xz --strip 1 -C .
 
 ## Homebrew-provided Libraries
 
-While we're working with homebrew, let's install some dependencies that we'll
+While we're working with homebrew, let's install a dependencies that we'll
 need later.
 
-First, [`boost`](http://www.boost.org/), a set of C++ libraries which are
-necessary to compile Mapnik:
-
-{% highlight bash %}
-$ brew install boost
-{% endhighlight %}
-
-This step will probably take the longest, so skip ahead and start downloading
-frameworks and software from the [KyngChaos Wiki](http://www.kyngchaos.com/).
-
-Next, [`icu`](http://site.icu-project.org/), a set of Unicode libraries for C++
-and Mapnik's other homebrew-provided dependency:
-
-{% highlight bash %}
-$ brew install icu4c
-{% endhighlight %}
-
-Finally, [`pkg-config`](http://pkg-config.freedesktop.org/) is necessary to
-cleanly compile PIL:
+[`pkg-config`](http://pkg-config.freedesktop.org/) is necessary to cleanly
+compile PIL:
 
 {% highlight bash %}
 $ brew install pkg-config
 {% endhighlight %}
 
-You'll want to make sure that `/usr/local/bin` is in your `$PATH`.
+You'll want to make sure that `/usr/local/bin` is in your `$PATH` so that
+`homebrew`-installed binaries will get run.
 
 ## KyngChaos Frameworks and Binaries
 
@@ -132,73 +116,64 @@ Frameworks](http://www.kyngchaos.com/software:frameworks) page, you'll want to
 download and install:
 
 * **FreeType** 
-* **GDAL Complete**--(this includes UnixImageIO (notably `jpeg` and `libpng`), PROJ,
+* **GSL** - The GNU Scientific Library
+* **GDAL Complete** (this includes UnixImageIO (notably `jpeg` and `libpng`), PROJ,
   GEOS, SQLite3 (including Spatialite), and GDAL)
 
 These will install to `/Library/Frameworks` and will set up pointers to their
 corresponding Python packages in `/Library/Python/2.6/site-packages/`.
 
 From the [Qgis](http://www.kyngchaos.com/software:qgis) page, you'll want the
-most up-to-date Qgis installer (non-standalone).
-
-Note: Qgis will run in 32-bit mode on Snow Leopard, as the QT framework is not
-yet 64-bit. This means that Python Qgis plugins will call 32-bit Python
-libraries (which may not exist, depending how they were installed). This bit me
-when trying to use
-[Quantumnik](http://bitbucket.org/springmeyer/quantumnik/wiki/Home), as I
-failed to build a 32-bit version of Mapnik. If you get this working, please
-post a comment.
+most up-to-date Qgis installer (non-standalone). If you intend to open
+Spatialite data sources, you may need to install a more up-to-date version of
+the SQLite3 Framework than is included in the GDAL Complete package (this is
+generally applicable; if you want/need to live on the bleeding edge, install
+frameworks individually).
 
 From the [PostgreSQL](http://www.kyngchaos.com/software:postgres) page,
-download and install:
+download and install the newest versions of the following:
 
-* **PostgreSQL 8.4** (server + client)
-* **PostGIS 1.4**
+* **PostgreSQL** (server + client)
+* **PostGIS**
 
 ## Mapnik
 
-By now, `boost` should have finished compiling, so you should install the
-remaining homebrew-provided libraries.
+Thanks to [Dane Springmeyer](http://dbsgeo.com/) and others, Mapnik is now
+[available as a framework](http://mapnik.org/news/2009/dec/16/osx_installers/).
+This means fewer `homebrew` dependencies, a simple upgrade path, and
+compatibility with 32-bit QGIS Python plugins. To install it, grab a Snow
+Leopard build from the [Mapnik OSX Downloads page](http://dbsgeo.com/downloads/)
+and run both the _Mapnik Framework_ and _Mapnik Python 2.6 System_ installers.
 
-From [mapnik.org](http://mapnik.org/), download the current version of the
-Mapnik source and extract it to `/usr/local/src`:
-
-{% highlight bash %}
-$ mkdir -p /usr/local/src
-$ cd /usr/local/src
-$ tar zxf ~/Downloads/mapnik-0.6.1.tar.bz2
-$ cd mapnik-0.6.1
-{% endhighlight %}
-
-Paste the following into `config.py`:
-
-{% highlight python %}
-OPTIMIZATION = '3'
-INPUT_PLUGINS = 'all'
-FREETYPE_CONFIG = '/Library/Frameworks/FreeType.framework/unix/bin/freetype-config'
-PNG_INCLUDES = '/Library/Frameworks/UnixImageIO.framework/unix/include'
-PNG_LIBS = '/Library/Frameworks/UnixImageIO.framework/unix/lib'
-JPEG_INCLUDES = '/Library/Frameworks/UnixImageIO.framework/unix/include'
-JPEG_LIBS = '/Library/Frameworks/UnixImageIO.framework/unix/lib'
-TIFF_INCLUDES = '/Library/Frameworks/UnixImageIO.framework/unix/include'
-TIFF_LIBS = '/Library/Frameworks/UnixImageIO.framework/unix/lib'
-PROJ_INCLUDES = '/Library/Frameworks/PROJ.framework/unix/include'
-PROJ_LIBS = '/Library/Frameworks/PROJ.framework/unix/lib'
-GDAL_CONFIG = '/Library/Frameworks/GDAL.framework/unix/bin/gdal-config'
-PG_CONFIG = '/usr/local/pgsql/bin/pg_config'
-SQLITE_INCLUDES = '/Library/Frameworks/SQLite3.framework/unix/include'
-SQLITE_LIBS = '/Library/Frameworks/SQLite3.framework/unix/lib'
-FRAMEWORK_SEARCH_PATH = '/System/Library/Frameworks/'
-BINDINGS = 'all'
-JOBS = 8
-{% endhighlight %}
-
-Then, configure, build, and install Mapnik:
+If you'd previously installed Mapnik from source, you should remove it from
+your system before running the installer:
 
 {% highlight bash %}
-$ python scons/scons.py configure
-$ python scons/scons.py install
+$ rm -rf /Library/Python/2.6/site-packages/mapnik
+$ rm -rf /usr/local/lib/mapnik
+$ rm /usr/local/lib/libmapnik.dylib
 {% endhighlight %}
+
+
+You can also remove `boost` and `icu` with `homebrew` if nothing else is using
+them:
+
+{% highlight bash %}
+$ brew uninstall boost
+$ brew uninstall icu
+{% endhighlight %}
+
+## Quantumnik
+
+[Quantumnik](http://bitbucket.org/springmeyer/quantumnik/wiki/Home) is a QGIS
+plugin that allows Mapnik to be used for rendering. In addition, it will map
+many QGIS styles to Mapnik styles and provides an interface for editing them. In
+short, it's an excellent way to prototype your maps before starting up a batch
+rendering job.
+
+To install Quantumnik, start up QGIS, enable the **Plugin Installer** in the
+Plugin Manager, choose **Fetch Python Plugins**, add a new repository
+(http://qgis.dbsgeo.com/), find it in the list, and check the box to enable it.
 
 ## Python
 
@@ -425,36 +400,25 @@ diffs](http://planet.openstreetmap.org/)).
 
 This means that we need to build it ourselves. First, [download the source
 tarball corresponding to the version you already have
-installed](http://www.postgresql.org/ftp/source/v8.4.1/). Next, extract it to
+installed](http://www.postgresql.org/ftp/source/v8.4.2/). Next, extract it to
 `/usr/local/src`:
 
 {% highlight bash %}
 $ cd /usr/local/src
-$ tar zxf ~/Downloads/postgresql-8.4.1.tar.bz2
+$ tar zxf ~/Downloads/postgresql-8.4.2.tar.bz2
 {% endhighlight %}
 
-Do a simplified build (referring to the [build notes for
-PostgreSQL](http://www.kyngchaos.com/macosx:build:postgresql) for partial
-consistency):
+Change to the _intarray_ contrib directory and `make` it:
 
 {% highlight bash %}
-$ cd postgresql-8.4.1/
-$ CFLAGS="-Os -D_FILE_OFFSET_BITS=64" \
-    ./configure --with-openssl --with-pam --with-krb5 --with-ldap \
-    --enable-thread-safety --with-bonjour --with-python --without-perl
-$ make -j8
-{% endhighlight %}
-
-Note: Few of the build instructions are actually followed here; we just need
-enough of the core compiled that `intarray` will build.
-
-Now that `intarray` can be linked in a build environment, build it:
-
-{% highlight bash %}
-$ cd contrib/intarray
+$ cd postgresql-8.4.2/contrib/intarray
+$ export PATH=/usr/local/pgsql/bin:$PATH
+$ export USE_PGXS=1
 $ make
 $ sudo make install
 {% endhighlight %}
+
+(This same process can be repeated for other extensions that you desire.)
 
 With `intarray` now installed, you can enable the database of your choosing
 (`osm` in this case):
