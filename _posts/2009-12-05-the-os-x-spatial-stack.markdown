@@ -374,7 +374,7 @@ need it when you run an import, even if the defaults are fine.
 for processing large volumes of OSM XML.
 
 To begin, download the [latest version of
-Osmosis](http://dev.openstreetmap.org/~bretth/osmosis-build/osmosis-latest-bin.tar.gz).
+Osmosis](http://dev.openstreetmap.org/~bretth/osmosis-build/osmosis-latest.tar.gz).
 
 Extract it to `/usr/local`:
 
