@@ -386,7 +386,7 @@ $ tar zxf ~/Downloads/osmosis-latest-bin.tar.gz
 Now, create a symlink to the binary:
 
 {% highlight bash %}
-$ ln -s /usr/local/osmosis-0.32/bin/osmosis /usr/local/bin/osmosis
+$ ln -s /usr/local/osmosis-0.36/bin/osmosis /usr/local/bin/osmosis
 {% endhighlight %}
 
 ## PostgreSQL Additions
