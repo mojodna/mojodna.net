@@ -427,22 +427,6 @@ With `intarray` now installed, you can enable the database of your choosing
 $ sudo -u postgres psql -d osm -f /usr/local/pgsql/share/contrib/_int.sql
 {% endhighlight %}
 
-## GDAL-based DEM Utilities
-
-Until GDAL 1.7 is released, if you want to generate hillshades, slope and
-aspect maps, or color reliefs, you'll need to install
-[demtools](http://www.perrygeo.net/wordpress/?p=7). `demtools_osx.patch` is a
-patch that makes it build on OS X:
-
-{% highlight bash %}
-$ cd /usr/local/src
-$ svn co http://perrygeo.googlecode.com/svn/trunk/demtools/
-$ cd demtools
-$ curl -Ls http://bit.ly/6O2TIf | patch -p0
-$ make
-$ make install
-{% endhighlight %}
-
 ## GUI Utilities
 
 For graphical management of spatial data beyond what Qgis can handle, I usually
