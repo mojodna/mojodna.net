@@ -400,18 +400,25 @@ diffs](http://planet.openstreetmap.org/)).
 
 This means that we need to build it ourselves. First, [download the source
 tarball corresponding to the version you already have
-installed](http://www.postgresql.org/ftp/source/v8.4.2/). Next, extract it to
+installed](http://www.postgresql.org/ftp/source/v8.4.5/). Next, extract it to
 `/usr/local/src`:
 
 {% highlight bash %}
 $ cd /usr/local/src
-$ tar zxf ~/Downloads/postgresql-8.4.2.tar.bz2
+$ tar zxf ~/Downloads/postgresql-8.4.5.tar.bz2
+{% endhighlight %}
+
+Configure Postgres:
+
+{% highlight bash %}
+$ cd postgres-8.4.5
+$ ./configure
 {% endhighlight %}
 
 Change to the _intarray_ contrib directory and `make` it:
 
 {% highlight bash %}
-$ cd postgresql-8.4.2/contrib/intarray
+$ cd contrib/intarray
 $ export PATH=/usr/local/pgsql/bin:$PATH
 $ export USE_PGXS=1
 $ make
