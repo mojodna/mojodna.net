@@ -46,7 +46,9 @@ was the case. Long story short, no dice. However, on one of the message boards
 where the problem had been raised (no resolution, natch), I saw a snippet to
 transform `git` diffs into `svn` diffs, revision numbers and all. Bingo. After
 fiddling with it for a while, I ended up with the following, which has been
-working well.
+working well. [Edit: updated gist with a more flexible version from Mike
+Pearce's [git-svn and
+ReviewBoard](http://blog.mikepearce.net/2010/09/16/git-svn-and-reviewboard/).]
 
 <script src="http://gist.github.com/44537.js">
 // nothing here
