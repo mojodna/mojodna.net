@@ -20,17 +20,16 @@ This is why I wrote
 says on the tin: it acts a proxy server that transparently adds OAuth headers
 to requests.
 
-There are 3 steps to using it.  First, clone the repository:
+There are 2 steps to using it.  First, install it:
 
 {% highlight bash %}
-$ git clone git://github.com/mojodna/oauth-proxy.git
+$ easy_install oauth-proxy
 {% endhighlight %}
 
 Then, start it:
 
 {% highlight bash %}
-$ cd oauth-proxy
-$ twistd -n oauth_proxy \
+$ oauth-proxy \
     --consumer-key <consumer key> \
     --consumer-secret <consumer secret> \
     [--token <token>] \
@@ -43,15 +42,6 @@ If you're accessing a resource that only requires 2-legged OAuth, you can omit
 `--token` and `--token-secret`. The proxy port defaults to `8001`, and `--ssl`
 is used if you're proxying connections to a provider that requires SSL (Fire
 Eagle, for example).
-
-In order to run the proxy, you'll need Python and a modern version of
-[Twisted](http://twistedmatrix.com/) (I use 8.2.0). OS X Leopard comes with
-Python 2.5.1 (which is sufficient) and an old version of Twisted (2.5.0), so
-you'll need to update that:
-
-{% highlight bash %}
-$ easy_install twisted
-{% endhighlight %}
 
 Once it's been started, use `curl` to make requests through it:
 
@@ -136,7 +126,7 @@ screen_name: [redacted]
 You can then use those values to start the OAuth proxy:
 
 {% highlight bash %}
-$ twistd -n oauth_proxy \
+$ oauth-proxy \
     --consumer-key <consumer key> \
     --consumer-secret <consumer secret> \
     --token <access token> \
