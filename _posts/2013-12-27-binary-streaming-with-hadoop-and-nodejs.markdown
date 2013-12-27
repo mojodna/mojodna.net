@@ -28,7 +28,7 @@ eventually had to start over and work through it bit by byte.
 
 Without further ado:
 
-## Creating Some Typed Bytes
+## Create Some Typed Bytes
 
 This is simple program that will output 2 pairs of key/value pairs as typed
 bytes:
@@ -69,7 +69,7 @@ The result looks like this:
 00000020  76 61 6c 75 65                                    |value|
 ```
 
-## Preparing a `SequenceFile`
+## Prepare a `SequenceFile`
 
 `SequenceFile`s are one of Hadoop's solutions to the [small file
 problem](http://blog.cloudera.com/blog/2009/02/the-small-files-problem/). The
@@ -107,7 +107,7 @@ The result looks like this:
 000000f0  54 23 00 09 71 02 61                              |T#..q.a|
 ```
 
-## Reading and Writing `SequenceFile`s
+## Read and Write `SequenceFile`s
 
 To run a job that only sees typed bytes but uses `SequenceFile`s to contain both
 input and output, start it like so:
@@ -179,7 +179,7 @@ hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.0.0-cdh4.4.0.jar \
   dumptb hello-output.seq/part-00000 < hello-output.tb
 ```
 
-## Reading Text and Writing `SequenceFile`s
+## Read Text and Write `SequenceFile`s
 
 In some circumstances you may find yourself with text input (the output from
 a Hive query, for example) and wish to produce binary output (images, say).
@@ -283,7 +283,7 @@ differences in the `SequenceFile`'s metadata):
 000000b0  32 00 00 00 0b 00 00 00  00 06 76 61 6c 75 65 32  |2.........value2|
 ```
 
-## Outputting Binary Files
+## Output Binary Files
 
 Before writing this, I had intended to produce a single logical file at the end
 of my workflow (without a key) that could be fetched and used immediately.
