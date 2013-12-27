@@ -109,10 +109,9 @@ The result looks like this:
 
 ## Reading and Writing `SequenceFile`s
 
-```bash
-hdfs dfs -rm -r -f hello-output.seq
-sudo rm -f /tmp/seq.debug
+To run a job that only sees typed bytes, start it like so:
 
+```bash
 hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.0.0-cdh4.4.0.jar \
   -D mapred.map.tasks=1 \
   -io typedbytes \
