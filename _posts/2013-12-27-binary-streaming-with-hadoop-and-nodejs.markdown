@@ -24,7 +24,7 @@ additional useful information in
 [HADOOP-1722](https://issues.apache.org/jira/browse/HADOOP-1722) and in [Klaas
 Bosteel's presentation on the
 topic](http://static.last.fm/johan/huguk-20090414/klaas-hadoop-1722.pdf), but
-eventually had to start over and work through it bit by bit.
+eventually had to start over and work through it bit by byte.
 
 Without further ado:
 
