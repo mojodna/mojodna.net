@@ -12,8 +12,8 @@ There are Python ([dumbo](http://klbostee.github.io/dumbo/),
 R ([rmr](https://github.com/RevolutionAnalytics/RHadoop/wiki/rmr)) tools to
 facilitate streaming jobs, but all of them have abstracted the handling of byte
 streams (using [typed
-bytes](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/typedbytes/package-summary.html)
-successfully enough that it's difficult to determine how it actually works.
+bytes](http://hadoop.apache.org/docs/current/api/org/apache/hadoop/typedbytes/package-summary.html))
+successfully enough that it's difficult to determine how they actually work.
 Which, as it turns out, is important to know if you're *not* using them.
 
 While researching this topic, I kept returning to [a Stack Overflow
