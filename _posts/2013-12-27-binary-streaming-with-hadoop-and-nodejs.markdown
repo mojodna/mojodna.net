@@ -109,7 +109,8 @@ The result looks like this:
 
 ## Reading and Writing `SequenceFile`s
 
-To run a job that only sees typed bytes, start it like so:
+To run a job that only sees typed bytes but uses `SequenceFile`s to contain both
+input and output, start it like so:
 
 ```bash
 hadoop jar /usr/lib/hadoop-mapreduce/hadoop-streaming-2.0.0-cdh4.4.0.jar \
