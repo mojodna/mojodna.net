@@ -285,10 +285,14 @@ differences in the `SequenceFile`'s metadata):
 
 ## Outputting Binary Files
 
-Before writing this, I was hoping to be able to produce a single logical file
-at the end of my workflow (without a key) that could be fetched and used
-immediately.  Unfortunately, Hadoop's streaming building blocks seem to require
-a record-based mindset.
+Before writing this, I had intended to produce a single logical file at the end
+of my workflow (without a key) that could be fetched and used immediately.
+However, when using MapReduce, the fundamental building blocks are
+record-based, so all values must be accompanied by a key (unless one writes to
+HDFS directly, presumably with `hdfs dfs -put - dest` to stream from `stdin`).
+
+Working with smaller units of data (i.e. broken into records) facilitates the
+use of subsequent jobs to perform further processing.
 
 With that under consideration, the most sensible approach (and one I've seen
 references to) appears to be the use of a `SequenceFile` as a virtual
