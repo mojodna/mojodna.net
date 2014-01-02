@@ -47,12 +47,12 @@ var prepare = function(typeCode, value) {
 };
 
 // record 1
-process.stdout.write(7, "key");   // string
-process.stdout.write(0, "value"); // bytes
+process.stdout.write(prepare(7, "key"));   // string
+process.stdout.write(prepare(0, "value")); // bytes
 
 // record 2
-process.stdout.write(7, "key2");  // string
-process.stdout.write(0, "value"); // bytes
+process.stdout.write(prepare(7, "key2"));  // string
+process.stdout.write(prepare(0, "value")); // bytes
 ```
 
 To use it to generate a file containing typed bytes:
