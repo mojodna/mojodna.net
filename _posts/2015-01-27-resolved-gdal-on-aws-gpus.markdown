@@ -5,6 +5,8 @@ title: "Resolved: GDAL on AWS GPU Instances"
 
 # Resolved: GDAL on AWS GPU Instances
 
+_Cross-posted from http://openterrain.tumblr.com/post/109330474336/resolved-gdal-on-aws-gpu-instances_
+
 Specifically, `g2.2xlarge` instances with Nvidia GRID K520 GPUs running Amazon Linux.
 
 As we kicked off the [new Knight News
