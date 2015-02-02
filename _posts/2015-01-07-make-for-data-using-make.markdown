@@ -143,13 +143,13 @@ simplify or clarify.
 SHELL := /bin/bash
 ```
 
-_Use `bash` for sub-shells, allowing use of `bash`-specific functionality._
+> Use `bash` for sub-shells, allowing use of `bash`-specific functionality.
 
 ```Makefile
 PATH := $(PATH):node_modules/.bin
 ```
 
-_Add `npm`-installed binaries to the `PATH`._
+> Add `npm`-installed binaries to the `PATH`.
 
 ```Makefile
 define EXPAND_EXPORTS
@@ -157,37 +157,38 @@ export $(word 1, $(subst =, , $(1))) := $(word 2, $(subst =, , $(1)))
 endef
 ```
 
-_Define a macro that expands (splits on `=`) and exports (makes available to
-sub-shells) key-value arguments, e.g. `DATABASE\_URL=postgres:///db`._
+> Define a macro that expands (splits on `=`) and exports (makes available to
+> sub-shells) key-value arguments, e.g. `DATABASE\_URL=postgres:///db`.
 
 ```Makefile
 # wrap Makefile body with a check for pgexplode
 ifeq ($(shell test -f node_modules/.bin/pgexplode; echo $$?), 0)
 ```
 
-_Check whether `pgexplode` has been installed (it's effectively a prerequisite
-for the entire `Makefile`); `test` doesn't output anything, so the return code
-(`$?`) needs to be `echo`'d for comparison with `0` (and escaped with an extra
-`$` to be passed through to the `shell` call)._
+> Check whether `pgexplode` has been installed (it's effectively a prerequisite
+> for the entire `Makefile`); `test` doesn't output anything, so the return
+> code (`$?`) needs to be `echo`'d for comparison with `0` (and escaped with an
+> extra `$` to be passed through to the `shell` call).
 
 ```Makefile
 # load .env
 $(foreach a,$(shell cat .env 2> /dev/null),$(eval $(call EXPAND_EXPORTS,$(a))))
 ```
 
-_Read `.env` (squelching error messages if one doesn't exist) and pass each
-environment pair to `EXPAND\_EXPORTS` to make it available to commands in
-targets._
+> Read `.env` (squelching error messages if one doesn't exist) and pass each
+> environment pair to `EXPAND\_EXPORTS` to make it available to commands in
+> targets.
 
 ```Makefile
 # expand PG* environment vars
 $(foreach a,$(shell set -a && source .env 2> /dev/null; node_modules/.bin/pgexplode),$(eval $(call EXPAND_EXPORTS,$(a))))
 ```
 
-_Use `pgexplode` to expand `DATABASE\_URL` into [`libpq`-compatible environment
-variables](http://www.postgresql.org/docs/9.4/static/libpq-envars.html). This
-will read from the environment (`$DATABASE\_URL`) if one isn't present in
-`.env` (or `.env` doesn't exist)._
+> Use `pgexplode` to expand `DATABASE\_URL` into [`libpq`-compatible
+> environment
+> variables](http://www.postgresql.org/docs/9.4/static/libpq-envars.html). This
+> will read from the environment (`$DATABASE\_URL`) if one isn't present in
+> `.env` (or `.env` doesn't exist).
 
 ```Makefile
 define create_relation
@@ -201,21 +202,22 @@ define create_extension
 endef
 ```
 
-_Macro definitions that will strip `db/` from targets' `$@` (target name) and
-use it as the name of a SQL file or PostgreSQL extension (`$(subst db/,,$@)`).
-The first command (`psql -c "\d $(subst db/,,$@)" > /dev/null 2>&1`) checks for
-the presence of a relation in the database specified by `DATABASE\_URL` and
-only evaluates SQL commands if it fails. `\d <name>` checks for the presence of
-a relation of any kind, `\dx` for loaded extensions, etc._
-
-_`ON\_ERROR\_STOP=1` is used to abort as soon as an error occurs, `-q` is
-"quiet", `-X` ignores any `psqlrc` files, `-1` runs the command in a single
-transaction, `-f` provides a file containing commands, and `-c` tells it to use
-the provided command._
-
-_Commands are prefixed with `@` to prevent `make` from printing them (since
-they're unnecessarily complicated due to the need to check for the existence of
-non-file resources)._
+> Macro definitions that will strip `db/` from targets' `$@` (target name) and
+> use it as the name of a SQL file or PostgreSQL extension (`$(subst
+> db/,,$@)`).  The first command (`psql -c "\d $(subst db/,,$@)" > /dev/null
+> 2>&1`) checks for the presence of a relation in the database specified by
+> `DATABASE\_URL` and only evaluates SQL commands if it fails. `\d <name>`
+> checks for the presence of a relation of any kind, `\dx` for loaded
+> extensions, etc.
+>
+> `ON\_ERROR\_STOP=1` is used to abort as soon as an error occurs, `-q` is
+> "quiet", `-X` ignores any `psqlrc` files, `-1` runs the command in a single
+> transaction, `-f` provides a file containing commands, and `-c` tells it to
+> use the provided command.
+>
+> Commands are prefixed with `@` to prevent `make` from printing them (since
+> they're unnecessarily complicated due to the need to check for the existence
+> of non-file resources).
 
 ```Makefile
 define register_function_target
@@ -229,8 +231,8 @@ endef
 $(foreach fn,$(shell ls sql/functions/ 2> /dev/null | sed 's/\..*//'),$(eval $(call register_function_target,$(fn))))
 ```
 
-_Generate targets for each file in `sql/functions`, callable as
-`db/function/<name>` and depending on the `db` target (keep reading)._
+> Generate targets for each file in `sql/functions`, callable as
+> `db/function/<name>` and depending on the `db` target (keep reading).
 
 ```Makefile
 # Import PBF ($2) as $1
@@ -252,14 +254,14 @@ db/osm-$(strip $(word 1, $(subst :, ,$(1)))): db/postgis db/hstore $(strip $(wor
 endef
 ```
 
-_Macro definition for importing OSM extracts. When called, it generates targets
-like `db/<place>` (which depends on both the import and `db/shared` (see
-below)) and `db/osm-<place>`, which does the actual import. `osm\_roads` is
-assumed to be created by `imposm3` in this case. `$${DATABASE\_URL}` is escaped
-because this is a macro (so it's evaluated at runtime) and uses braces to use
-the environment variable._
-
-Now begins what looks like a more conventional `Makefile`.
+> Macro definition for importing OSM extracts. When called, it generates
+> targets like `db/<place>` (which depends on both the import and `db/shared`
+> (see below)) and `db/osm-<place>`, which does the actual import. `osm\_roads`
+> is assumed to be created by `imposm3` in this case. `$${DATABASE\_URL}` is
+> escaped because this is a macro (so it's evaluated at runtime) and uses
+> braces to use the environment variable.
+>
+> Now begins what looks like a more conventional `Makefile`.
 
 ```Makefile
 # default target
@@ -285,10 +287,10 @@ clean:
         @cp $< project.mml
 ```
 
-_A pattern, which obviates the need to declare multiple redundant targets. If
-`make toner` is run, it will depend on `toner.mml` (see below) and will
-silently copy the output (`$<` is the expanded name of the first dependency) to
-`project.mml` for TileMill to read._
+> A pattern, which obviates the need to declare multiple redundant targets. If
+> `make toner` is run, it will depend on `toner.mml` (see below) and will
+> silently copy the output (`$<` is the expanded name of the first dependency)
+> to `project.mml` for TileMill to read.
 
 ```Makefile
 mml: $(subst .yml,.mml,$(filter-out circle.yml,$(wildcard *.yml)))
@@ -296,9 +298,9 @@ mml: $(subst .yml,.mml,$(filter-out circle.yml,$(wildcard *.yml)))
 xml: $(subst .yml,.xml,$(filter-out circle.yml,$(wildcard *.yml)))
 ```
 
-_Defines targets that will make MML and XML files corresponding to all `.yml`
-files **except** `circle.yml` (which is a control file for
-[CircleCI](https://circleci.com), not a style)._
+> Defines targets that will make MML and XML files corresponding to all `.yml`
+> files **except** `circle.yml` (which is a control file for
+> [CircleCI](https://circleci.com), not a style).
 
 ```Makefile
 .PRECIOUS: %.mml
@@ -308,20 +310,20 @@ files **except** `circle.yml` (which is a control file for
         @cat $< | interp | js-yaml > tmp.mml && mv tmp.mml $@
 ```
 
-_Builds `*.mml` by interpolating environment variables into
-a [Mustache](http://mustache.github.io/)-templated YAML file
-([`interp`](https://github.com/stamen/interp)) and converting to JSON
-([`js-yaml`](https://github.com/nodeca/js-yaml)). `tmp.mml` is used so that
-`mv` can atomically move the file into place (without doing this, TileMill
-periodically chokes when reading partially-written files)._
-
-_This depends on `<style>.yml`, `map.mss`, `labels.mss`, and `<style.mss>` so
-that it will be considered stale when any of those are modified. `interp` and
-`js-yaml` are explicitly called out as dependencies so that they can be
-installed if necessary (see below)._
-
-_This is marked as `.PRECIOUS` so that artifacts won't be deleted when called
-as an intermediate target (i.e. from an XML target)._
+> Builds `*.mml` by interpolating environment variables into
+> a [Mustache](http://mustache.github.io/)-templated YAML file
+> ([`interp`](https://github.com/stamen/interp)) and converting to JSON
+> ([`js-yaml`](https://github.com/nodeca/js-yaml)). `tmp.mml` is used so that
+> `mv` can atomically move the file into place (without doing this, TileMill
+> periodically chokes when reading partially-written files).
+>
+> This depends on `<style>.yml`, `map.mss`, `labels.mss`, and `<style.mss>` so
+> that it will be considered stale when any of those are modified. `interp` and
+> `js-yaml` are explicitly called out as dependencies so that they can be
+> installed if necessary (see below).
+>
+> This is marked as `.PRECIOUS` so that artifacts won't be deleted when called
+> as an intermediate target (i.e. from an XML target).
 
 ```Makefile
 .PRECIOUS: %.xml
@@ -333,10 +335,10 @@ as an intermediate target (i.e. from an XML target)._
         @carto -l $< > $@ || (rm -f $@; false)
 ```
 
-_Builds `*.xml` from `<style>.mml` (declared above). `|| (rm -f $@; false)` is
-included because `carto` may leave behind invalid XML files when it fails (and
-because we want to pass the failure through and terminate the current `make`
-invocation._
+> Builds `*.xml` from `<style>.mml` (declared above). `|| (rm -f $@; false)` is
+> included because `carto` may leave behind invalid XML files when it fails
+> (and because we want to pass the failure through and terminate the current
+> `make` invocation.
 
 ```Makefile
 .PHONY: carto
@@ -376,13 +378,13 @@ node_modules/millstone/package.json:
         @npm install $(PKG)
 ```
 
-_Artificial (`.PHONY`) targets for required commands along with file-based
-dependencies and checks for Node. `PKG` is defined as a `make` variable in
-preparation for future refactoring that turns this boilerplate into a macro._
-
-_`package.json` declares dependencies on these commands, but it also includes
-everything else to run a rendering node, so this is a lower-impact way of
-ensuring that they're installed._
+> Artificial (`.PHONY`) targets for required commands along with file-based
+> dependencies and checks for Node. `PKG` is defined as a `make` variable in
+> preparation for future refactoring that turns this boilerplate into a macro.
+>
+> `package.json` declares dependencies on these commands, but it also includes
+> everything else to run a rendering node, so this is a lower-impact way of
+> ensuring that they're installed.
 
 ```Makefile
 .PHONY: DATABASE_URL
@@ -391,8 +393,8 @@ DATABASE_URL:
         @test "${$@}" || (echo "$@ is undefined" && false)
 ```
 
-_A target definition that can be used when one wants to ensure that
-a `DATABASE\_URL` was provided._
+> A target definition that can be used when one wants to ensure that
+> a `DATABASE\_URL` was provided.
 
 ```Makefile
 .PHONY: db
@@ -402,9 +404,9 @@ db: DATABASE_URL
         createdb
 ```
 
-_Target to ensure that a database exists. If `psql` returns fall, `createdb`
-will be run (using `libpq` environment variables extracted from
-`DATABASE\_URL`) to create one._
+> Target to ensure that a database exists. If `psql` returns fall, `createdb`
+> will be run (using `libpq` environment variables extracted from
+> `DATABASE\_URL`) to create one.
 
 ```Makefile
 .PHONY: db/postgis
@@ -418,8 +420,8 @@ db/hstore: db
         $(call create_extension)
 ```
 
-_Targets that create extensions (and require that a database exists) using the
-macros defined above._
+> Targets that create extensions (and require that a database exists) using the
+> macros defined above.
 
 ```Makefile
 .PHONY: db/shared
@@ -431,8 +433,8 @@ db/shared: db/postgres db/shapefiles
 db/postgres: db/functions/highroad
 ```
 
-_Meta-targets that depend on both explicit (`db/shapefiles`) and implicit
-(`db/functions/highroad`) targets._
+> Meta-targets that depend on both explicit (`db/shapefiles`) and implicit
+> (`db/functions/highroad`) targets.
 
 ```Makefile
 .PHONY: db/shapefiles
@@ -455,7 +457,7 @@ db/shapefiles: shp/osmdata/land-polygons-complete-3857.zip \
                shp/natural_earth/ne_10m_admin_1_states_provinces_lines-merc.zip
 ```
 
-_Meta-target for processed Shapefiles._
+> Meta-target for processed Shapefiles.
 
 ```Makefile
 # TODO places target that lists registered places
@@ -474,9 +476,9 @@ PLACES=BC:data/extract/north-america/ca/british-columbia-latest.osm.pbf \
 $(foreach place,$(PLACES),$(eval $(call import,$(place))))
 ```
 
-_Define a list of places along with the local reference to their corresponding
-extract (`data/extract/%` and `data/metro/%` are patterns defined below) and
-generate import targets (e.g. `db/BC` for British Columbia)._
+> Define a list of places along with the local reference to their corresponding
+> extract (`data/extract/%` and `data/metro/%` are patterns defined below) and
+> generate import targets (e.g. `db/BC` for British Columbia).
 
 ```Makefile
 .SECONDARY: data/extract/%
@@ -492,24 +494,25 @@ data/metro/%:
         curl -Lf https://s3.amazonaws.com/metro-extracts.mapzen.com/$(@:data/metro/%=%) -o $@
 ```
 
-_OSM extract patterns; i.e. anything under `data/extract/` will be downloaded
+OSM extract patterns; i.e. anything under `data/extract/` will be downloaded
 from [Geofabrik](http://www.geofabrik.de/), anything under `data/metro/` from
 [Mapzen](https://mapzen.com/)'s [Metro
-Extracts](https://mapzen.com/metro-extracts/))._
+Extracts](https://mapzen.com/metro-extracts/)).
 
-_These are marked as `.SECONDARY` to prevent them from being deleted (as
-they're "expensive" to create).  **Note**: this isn't quite right; my intention
-is to keep them around but also to delete them if the target failed._
-
-_`mkdir -p` is used to ensure that the target directory exists. `$$(dirname
-$@)` is used to pass the literal `$(dirname data/metro/<whatever>)` to
-`mkdir`._
-
-_`$(@:data/metro/%=%)` substitutes `<whatever>` for `data/metro/<whatever>` in
-the target name._
-
-_`curl`'s `-f` option is provided so that it will return with a non-zero exit
-code on failure and cause the target to fail._
+> These are marked as `.SECONDARY` to prevent them from being deleted (as
+> they're "expensive" to create).  **Note**: this isn't quite right; my
+> intention is to keep them around but also to delete them if the target
+> failed.
+>
+> `mkdir -p` is used to ensure that the target directory exists. `$$(dirname
+> $@)` is used to pass the literal `$(dirname data/metro/<whatever>)` to
+> `mkdir`.
+>
+> `$(@:data/metro/%=%)` substitutes `<whatever>` for `data/metro/<whatever>` in
+> the target name.
+>
+> `curl`'s `-f` option is provided so that it will return with a non-zero exit
+> code on failure and cause the target to fail.
 
 ```Makefile
 .SECONDARY: data/osmdata/land_polygons.zip
@@ -539,9 +542,9 @@ shp/osmdata/land-polygons-complete-3857.zip: shp/osmdata/land_polygons.shp \
         zip -j $@ $^
 ```
 
-_Similar to the OSM extracts, but for a specific file with a non-matching
-source name. Some of this remains as a relic of when we were using different
-versions of the land polygons._
+> Similar to the OSM extracts, but for a specific file with a non-matching
+> source name. Some of this remains as a relic of when we were using different
+> versions of the land polygons.
 
 ```Makefile
 define natural_earth
@@ -591,32 +594,32 @@ shp/natural_earth/$(strip $(word 1, $(subst :, ,$(1))))-merc.zip: shp/natural_ea
 endef
 ```
 
-_Macro definition that creates `db/ne\_<whatever>` and `shp/natural\_earth/*`
-targets for [Natural Earth](http://www.naturalearthdata.com/) sources. It
-assumes that it's called with arguments in the form `<name>:<source
-file>:[shapefile]`. (If someone can help simplify the repeated `$(strip $(word
-1, $(subst :, ,$(1))))` declarations (used to extract the first component), I'd
-appreciate it!)_
-
-_The `db/<whatever>` target runs `ogr2ogr` with a set of options that we've
-found to work well with the Natural Earth Shapefiles over the years._
-
-_`shp/natural\_earth/*-merc.{shp,dbf,prj,shx}` states that there will be
-4 artifacts for each invocation of `ogr2ogr` (used to reproject here). Again,
-we use options gathered over the years along with `/vsizip` to avoid needing to
-unzip. If a single "file" (base name, really) exists in the zip, just the name
-of the zip file is necessary, otherwise a path to the Shapefile within the zip
-is necessary (the list of layers below takes advantage of that by allowing
-`[shapefile]` to be optional. (This is necessary due to errors in the packaging
-of some of the Natural Earth layers.)_
-
-_Aggressive escaping is necessary in order for literal `$`s to be passed
-through, e.g. `$$$$(dirname $$@)`._
-
-_The `shp/natural\_earth/*-merc.zip` target uses `$^` for the list of files to
-compress, which contains the expanded names of all of the dependencies. `zip`'s
-`-j` option is used to "junk paths" and put everything in the root of the zip
-file._
+> Macro definition that creates `db/ne\_<whatever>` and `shp/natural\_earth/*`
+> targets for [Natural Earth](http://www.naturalearthdata.com/) sources. It
+> assumes that it's called with arguments in the form `<name>:<source
+> file>:[shapefile]`. (If someone can help simplify the repeated `$(strip
+> $(word 1, $(subst :, ,$(1))))` declarations (used to extract the first
+> component), I'd appreciate it!)
+>
+> The `db/<whatever>` target runs `ogr2ogr` with a set of options that we've
+> found to work well with the Natural Earth Shapefiles over the years.
+>
+> `shp/natural\_earth/*-merc.{shp,dbf,prj,shx}` states that there will be
+> 4 artifacts for each invocation of `ogr2ogr` (used to reproject here). Again,
+> we use options gathered over the years along with `/vsizip` to avoid needing
+> to unzip. If a single "file" (base name, really) exists in the zip, just the
+> name of the zip file is necessary, otherwise a path to the Shapefile within
+> the zip is necessary (the list of layers below takes advantage of that by
+> allowing `[shapefile]` to be optional. (This is necessary due to errors in
+> the packaging of some of the Natural Earth layers.)
+>
+> Aggressive escaping is necessary in order for literal `$`s to be passed
+> through, e.g. `$$$$(dirname $$@)`.
+>
+> The `shp/natural\_earth/*-merc.zip` target uses `$^` for the list of files to
+> compress, which contains the expanded names of all of the dependencies.
+> `zip`'s `-j` option is used to "junk paths" and put everything in the root of
+> the zip file.
 
 ```Makefile
 # <name>:<source file>:[shapefile]
@@ -639,10 +642,10 @@ NATURAL_EARTH=ne_50m_land:data/ne/50m/physical/ne_50m_land.zip \
 $(foreach shape,$(NATURAL_EARTH),$(eval $(call natural_earth,$(shape))))
 ```
 
-_Define a list of Natural Earth layers along with their local file references
-and (optional) Shapefile names and call `natural_earth` to generate targets. As
-with the OSM extracts, patterns are used to match the conventions used by the
-Natural Earth site._
+> Define a list of Natural Earth layers along with their local file references
+> and (optional) Shapefile names and call `natural_earth` to generate targets.
+> As with the OSM extracts, patterns are used to match the conventions used by
+> the Natural Earth site.
 
 ```Makefile
 define natural_earth_sources
@@ -660,7 +663,7 @@ data/ne-stamen/$(1)/$(2)/%.zip:
 endef
 ```
 
-_Macro definition for meta Natural Earth patterns._
+> Macro definition for meta Natural Earth patterns.
 
 ```Makefile
 scales=10m 50m 110m
@@ -669,7 +672,7 @@ themes=cultural physical raster
 $(foreach a,$(scales),$(foreach b,$(themes),$(eval $(call natural_earth_sources,$(a),$(b)))))
 ```
 
-_Generate targets for nested combinations of scales and themes._
+> Generate targets for nested combinations of scales and themes.
 
 ```Makefile
 # complete wrapping
@@ -679,8 +682,8 @@ else
 endif
 ```
 
-_Provide a default target (truly default in that it will execute for any
-requested target) explaining what needs to be done for things to work
-correctly._
+> Provide a default target (truly default in that it will execute for any
+> requested target) explaining what needs to be done for things to work
+> correctly.
 
 Questions? Suggestions?
