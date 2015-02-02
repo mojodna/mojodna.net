@@ -158,7 +158,7 @@ endef
 ```
 
 _Define a macro that expands (splits on `=`) and exports (makes available to
-sub-shells) key-value arguments, e.g. `DATABASE_URL=postgres:///db`._
+sub-shells) key-value arguments, e.g. `DATABASE\_URL=postgres:///db`._
 
 ```Makefile
 # wrap Makefile body with a check for pgexplode
@@ -176,7 +176,7 @@ $(foreach a,$(shell cat .env 2> /dev/null),$(eval $(call EXPAND_EXPORTS,$(a))))
 ```
 
 _Read `.env` (squelching error messages if one doesn't exist) and pass each
-environment pair to `EXPAND_EXPORTS` to make it available to commands in
+environment pair to `EXPAND\_EXPORTS` to make it available to commands in
 targets._
 
 ```Makefile
@@ -184,9 +184,9 @@ targets._
 $(foreach a,$(shell set -a && source .env 2> /dev/null; node_modules/.bin/pgexplode),$(eval $(call EXPAND_EXPORTS,$(a))))
 ```
 
-_Use `pgexplode` to expand `DATABASE_URL` into [`libpq`-compatible environment
+_Use `pgexplode` to expand `DATABASE\_URL` into [`libpq`-compatible environment
 variables](http://www.postgresql.org/docs/9.4/static/libpq-envars.html). This
-will read from the environment (`$DATABASE_URL`) if one isn't present in
+will read from the environment (`$DATABASE\_URL`) if one isn't present in
 `.env` (or `.env` doesn't exist)._
 
 ```Makefile
@@ -208,7 +208,7 @@ the presence of a relation in the database specified by `DATABASE\_URL` and
 only evaluates SQL commands if it fails. `\d <name>` checks for the presence of
 a relation of any kind, `\dx` for loaded extensions, etc._
 
-_`ON_ERROR_STOP=1` is used to abort as soon as an error occurs, `-q` is
+_`ON\_ERROR\_STOP=1` is used to abort as soon as an error occurs, `-q` is
 "quiet", `-X` ignores any `psqlrc` files, `-1` runs the command in a single
 transaction, `-f` provides a file containing commands, and `-c` tells it to use
 the provided command._
@@ -254,8 +254,8 @@ endef
 
 _Macro definition for importing OSM extracts. When called, it generates targets
 like `db/<place>` (which depends on both the import and `db/shared` (see
-below)) and `db/osm-<place>`, which does the actual import. `osm_roads` is
-assumed to be created by `imposm3` in this case. `$${DATABASE_URL}` is escaped
+below)) and `db/osm-<place>`, which does the actual import. `osm\_roads` is
+assumed to be created by `imposm3` in this case. `$${DATABASE\_URL}` is escaped
 because this is a macro (so it's evaluated at runtime) and uses braces to use
 the environment variable._
 
@@ -392,7 +392,7 @@ DATABASE_URL:
 ```
 
 _A target definition that can be used when one wants to ensure that
-a `DATABASE_URL` was provided._
+a `DATABASE\_URL` was provided._
 
 ```Makefile
 .PHONY: db
@@ -591,7 +591,7 @@ shp/natural_earth/$(strip $(word 1, $(subst :, ,$(1))))-merc.zip: shp/natural_ea
 endef
 ```
 
-_Macro definition that creates `db/ne_<whatever>` and `shp/natural_earth/*`
+_Macro definition that creates `db/ne\_<whatever>` and `shp/natural\_earth/*`
 targets for [Natural Earth](http://www.naturalearthdata.com/) sources. It
 assumes that it's called with arguments in the form `<name>:<source
 file>:[shapefile]`. (If someone can help simplify the repeated `$(strip $(word
@@ -601,7 +601,7 @@ appreciate it!)_
 _The `db/<whatever>` target runs `ogr2ogr` with a set of options that we've
 found to work well with the Natural Earth Shapefiles over the years._
 
-_`shp/natural_earth/*-merc.{shp,dbf,prj,shx}` states that there will be
+_`shp/natural\_earth/*-merc.{shp,dbf,prj,shx}` states that there will be
 4 artifacts for each invocation of `ogr2ogr` (used to reproject here). Again,
 we use options gathered over the years along with `/vsizip` to avoid needing to
 unzip. If a single "file" (base name, really) exists in the zip, just the name
@@ -613,7 +613,7 @@ of some of the Natural Earth layers.)_
 _Aggressive escaping is necessary in order for literal `$`s to be passed
 through, e.g. `$$$$(dirname $$@)`._
 
-_The `shp/natural_earth/*-merc.zip` target uses `$^` for the list of files to
+_The `shp/natural\_earth/*-merc.zip` target uses `$^` for the list of files to
 compress, which contains the expanded names of all of the dependencies. `zip`'s
 `-j` option is used to "junk paths" and put everything in the root of the zip
 file._
